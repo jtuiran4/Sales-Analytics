@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: sales_analytics_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: sales_analytics
+      MYSQL_USER: sales_user
+      MYSQL_PASSWORD: sales_pass123
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./sql/init:/docker-entrypoint-initdb.d
+    networks:
+      - sales_network
+
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  sales_network:
+    driver: bridge
+
